@@ -11,6 +11,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public const USER_MANAGER = 1;
+    public const USER_ADMIN = 2;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,4 +44,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin()
+    {
+        return $this->role == self::USER_ADMIN;
+    }
+
+    public function isManager()
+    {
+        return $this->role == self::USER_MANAGER;
+    }
 }

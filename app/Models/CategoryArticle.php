@@ -10,7 +10,11 @@ class CategoryArticle extends Model
     use HasFactory;
 
     protected $table = 'category_articles';
-    protected $guarded = false;
+    protected $fillable = [
+        'parent_id',
+        'title',
+        'slug',
+    ];
 
     public function scopeMain($query)
     {

@@ -43,19 +43,22 @@ Route::group(['namespace' => 'CategoryArticle'], function () {
     Route::delete('/category-articles/{category}', 'DestroyController')->name('category_articles.destroy');
 });
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'can:manager']], function () {
     Route::get('/', 'IndexController')->name('admin.index');
     Route::group(['namespace' => 'News'], function () {
         Route::get('/news', 'IndexController')->name('admin.news.index');
-    });
-    Route::group(['namespace' => 'User'], function () {
-        Route::get('/user', 'IndexController')->name('admin.user.index');
     });
     Route::group(['namespace' => 'Article'], function () {
         Route::get('/articles', 'IndexController')->name('admin.article.index');
     });
     Route::group(['namespace' => 'CategoryArticle'], function () {
         Route::get('/category-articles', 'IndexController')->name('admin.category_articles.index');
+    });
+});
+
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'can:admin']], function () {
+    Route::group(['namespace' => 'User'], function () {
+        Route::get('/user', 'IndexController')->name('admin.user.index');
     });
 });
 

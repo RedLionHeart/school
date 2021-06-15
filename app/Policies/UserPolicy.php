@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class AdminPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -21,6 +21,22 @@ class AdminPolicy
         //
     }
 
+    public function canAdmin(User $user)
+    {
+        if($user->isAdmin()){
+            return Response::allow('Доступ разрешен');
+        }
+        return Response::deny('Доступ запрещен');
+    }
+
+    public function canManager(User $user)
+    {
+        if($user->isManager() || $user->isAdmin()){
+            return Response::allow('Доступ разрешен');
+        }
+        return Response::deny('Доступ запрещен');
+    }
+
     /**
      * Determine whether the user can view the model.
      *
@@ -30,10 +46,10 @@ class AdminPolicy
      */
     public function view(User $user, ?User $model)
     {
-        if($model->role === 2){
+       /* if($model->role === 2){
             return Response::allow('Доступ разрешен');
         }
-        return Response::deny('Доступ запрещен');
+        return Response::deny('Доступ запрещен');*/
     }
 
     /**

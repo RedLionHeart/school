@@ -19,7 +19,7 @@ class AdminPanelMiddleware
     {
         $user = Auth::user();
 
-        if(empty($user) || auth()->user()->role !== 2 && auth()->user()->role !== 1){
+        if(auth()->user()->role !== 2 && auth()->user()->role !== 1){
             return empty($user) ? redirect('/login') : redirect('/');
         }
         return $next($request);
