@@ -15,7 +15,7 @@
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="nav-icon fas fa-blog"></i>
                 <p>
                     Блог
                     <i class="right fas fa-angle-left"></i>
@@ -32,6 +32,35 @@
                     <a href="{{route('admin.category_articles.index')}}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Категории</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-graduation-cap"></i>
+                <p>
+                    Наша жизнь
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{route('admin.category_life.index')}}" class="nav-link">
+                        <i class="fas fa-directions nav-icon"></i>
+                        <p>Разделы<span class="badge badge-info right">{{$categories_life->total()}}</span></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.archive_photo.index')}}" class="nav-link">
+                        <i class="far fa-newspaper nav-icon"></i>
+                        <p>Архивы альбомов<span class="badge badge-info right">{{$archives_photo->total()}}</span></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.album.index')}}" class="nav-link">
+                        <i class="fas fa-images nav-icon"></i>
+                        <p>Альбомы<span class="badge badge-info right">{{$albums->total()}}</span></p>
                     </a>
                 </li>
             </ul>

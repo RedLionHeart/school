@@ -19,13 +19,14 @@ Route::get('/', function () {
 
 Route::group(['namespace' => 'News'], function () {
     Route::get('/news', 'IndexController')->name('news.index');
-    Route::get('/news/create', 'CreateController')->name('news.create');
-    Route::post('/news', 'StoreController')->name('news.store');
+    Route::get('/news/create', 'CreateController')->name('news.create')->middleware(['auth', 'can:manager']);
+    Route::post('/news', 'StoreController')->name('news.store')->middleware(['auth', 'can:manager']);
     Route::get('/news/{news}', 'ShowController')->name('news.show');
-    Route::get('/news/{news}/edit', 'EditController')->name('news.edit');
-    Route::patch('/news/{news}', 'UpdateController')->name('news.update');
-    Route::delete('/news/{news}', 'DestroyController')->name('news.destroy');
+    Route::get('/news/{news}/edit', 'EditController')->name('news.edit')->middleware(['auth', 'can:manager']);
+    Route::patch('/news/{news}', 'UpdateController')->name('news.update')->middleware(['auth', 'can:manager']);
+    Route::delete('/news/{news}', 'DestroyController')->name('news.destroy')->middleware(['auth', 'can:manager']);
 });
+
 Route::group(['namespace' => 'Article'], function () {
     Route::get('/blog', 'IndexController')->name('article.index');
     Route::get('/article/create', 'CreateController')->name('article.create');
@@ -35,6 +36,7 @@ Route::group(['namespace' => 'Article'], function () {
     Route::patch('/article/{article}', 'UpdateController')->name('article.update');
     Route::delete('/article/{article}', 'DestroyController')->name('article.destroy');
 });
+
 Route::group(['namespace' => 'CategoryArticle'], function () {
     Route::get('/category-articles/create', 'CreateController')->name('category_articles.create');
     Route::post('/category-articles', 'StoreController')->name('category_articles.store');
@@ -54,6 +56,45 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::group(['namespace' => 'CategoryArticle'], function () {
         Route::get('/category-articles', 'IndexController')->name('admin.category_articles.index');
     });
+
+    Route::get('/archive-photo', 'ArchivePhotoController@index')->name('admin.archive_photo.index');
+    Route::get('/album', 'AlbumController@index')->name('admin.album.index');
+    Route::get('/category-life', 'CategoryLifeController@index')->name('admin.category_life.index');
+
+});
+
+/** Pages */
+Route::get('/our-life', 'PagesController@aboutUs')->name('our_life.index');
+
+/** Archive-photo*/
+Route::get('/our-life/{archive_photo}', 'ArchivePhotoController@show')->name('archive_photo.show');
+Route::get('/our-life/{archive_photo}/{album}', 'AlbumController@show')->name('album.show');
+
+
+Route::middleware(['auth', 'can:manager']) -> group(function () {
+    /** Archive-photo*/
+    Route::get('/archive-photo/create', 'ArchivePhotoController@create')->name('archive_photo.create');
+    Route::post('/archive-photo', 'ArchivePhotoController@store')->name('archive_photo.store');
+    Route::get('/archive-photo/{archive}/edit', 'ArchivePhotoController@edit')->name('archive_photo.edit');
+    Route::patch('/archive-photo/{archive}', 'ArchivePhotoController@update')->name('archive_photo.update');
+    Route::delete('/archive-photo/{archive}', 'ArchivePhotoController@destroy')->name('archive_photo.destroy');
+
+    /** Albums*/
+    Route::get('/album/create', 'AlbumController@create')->name('album.create');
+    Route::post('/album', 'AlbumController@store')->name('album.store');
+    Route::post('/album_image', 'AlbumController@storeImage')->name('album_image.store');
+    Route::get('/album_image/fetch/{id}', 'AlbumController@fetchImage')->name('album_image.fetch');
+    Route::delete('/album_image/{image}', 'PhotosAlbumController@destroy')->name('album_image.destroy');
+    Route::get('/album/{album}/edit', 'AlbumController@edit')->name('album.edit');
+    Route::patch('/album/{album}', 'AlbumController@update')->name('album.update');
+    Route::delete('/album/{album}', 'AlbumController@destroy')->name('album.destroy');
+
+    /** Categories life*/
+    Route::get('/category-life/create', 'CategoryLifeController@create')->name('category_life.create');
+    Route::post('/category-life', 'CategoryLifeController@store')->name('category_life.store');
+    Route::get('/category-life/{category}/edit', 'CategoryLifeController@edit')->name('category_life.edit');
+    Route::patch('/category-life/{category}', 'CategoryLifeController@update')->name('category_life.update');
+    Route::delete('/category-life/{category}', 'CategoryLifeController@destroy')->name('category_life.destroy');
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'can:admin']], function () {

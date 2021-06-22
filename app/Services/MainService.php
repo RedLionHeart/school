@@ -49,8 +49,8 @@ class MainService
 
         if (empty($filename)){
             $filename = Str::random(32) . '.' . $image->getClientOriginalExtension();
-            $path = storage_path('app/public/' . $folder . '/' . $filename);
         }
+        $path = storage_path('app/public/' . $folder . '/' . $filename);
 
         Image::make($image)->save($path);
         return basename($filename);
