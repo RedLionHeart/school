@@ -58,20 +58,38 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     });
 
     Route::get('/archive-photo', 'ArchivePhotoController@index')->name('admin.archive_photo.index');
+    Route::get('/archive-video', 'ArchiveVideoController@index')->name('admin.archive_video.index');
+    Route::get('/videos', 'VideosAlbumController@index')->name('admin.videos.index');
     Route::get('/album', 'AlbumController@index')->name('admin.album.index');
     Route::get('/category-life', 'CategoryLifeController@index')->name('admin.category_life.index');
 
 });
 
 /** Pages */
-Route::get('/our-life', 'PagesController@aboutUs')->name('our_life.index');
+Route::get('/our-life', 'PagesController@aboutUs')->name('our_life.index'); // заменить на index
 
 /** Archive-photo*/
-Route::get('/our-life/{archive_photo}', 'ArchivePhotoController@show')->name('archive_photo.show');
-Route::get('/our-life/{archive_photo}/{album}', 'AlbumController@show')->name('album.show');
+//Route::get('/our-life/{archive_photo}', 'OurLifeController@show')->name('archive_photo.show');
+Route::get('/our-life/video/{archive_video}', 'ArchiveVideoController@show')->name('archive_video.show');
+Route::get('/our-life/{archive_photo}', 'OurLifeController@show')->name('archive_photo.show');
+Route::get('/our-life/{archive}/{album}', 'AlbumController@show')->name('album.show');
 
 
 Route::middleware(['auth', 'can:manager']) -> group(function () {
+    /** Archive-video*/
+    Route::get('/archive-video/create', 'ArchiveVideoController@create')->name('archive_video.create');
+    Route::post('/archive-video', 'ArchiveVideoController@store')->name('archive_video.store');
+    Route::get('/archive-video/{archive}/edit', 'ArchiveVideoController@edit')->name('archive_video.edit');
+    Route::patch('/archive-video/{archive}', 'ArchiveVideoController@update')->name('archive_video.update');
+    Route::delete('/archive-video/{archive}', 'ArchiveVideoController@destroy')->name('archive_video.destroy');
+
+    /** Videos album*/
+    Route::get('/videos/create', 'VideosAlbumController@create')->name('video.create');
+    Route::post('/videos', 'VideosAlbumController@store')->name('video.store');
+    Route::get('/videos/{video}/edit', 'VideosAlbumController@edit')->name('video.edit');
+    Route::patch('/videos/{video}', 'VideosAlbumController@update')->name('video.update');
+    Route::delete('/videos/{video}', 'VideosAlbumController@destroy')->name('video.destroy');
+
     /** Archive-photo*/
     Route::get('/archive-photo/create', 'ArchivePhotoController@create')->name('archive_photo.create');
     Route::post('/archive-photo', 'ArchivePhotoController@store')->name('archive_photo.store');

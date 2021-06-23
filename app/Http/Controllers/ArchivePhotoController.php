@@ -42,7 +42,7 @@ class ArchivePhotoController extends Controller
     }
 
     public function edit(ArchivePhoto $archive){
-        $categories = CategoryLife::all();
+        $categories = CategoryLife::doesntHave('archivePhoto')->get();
 
         return view('archive_photo.edit', compact(['archive', 'categories']));
     }

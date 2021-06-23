@@ -63,6 +63,18 @@
                         <p>Альбомы<span class="badge badge-info right">{{$albums->total()}}</span></p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.archive_video.index')}}" class="nav-link">
+                        <i class="fas fa-video nav-icon"></i>
+                        <p>Архивы видео<span class="badge badge-info right">{{$archives_video->total()}}</span></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.videos.index')}}" class="nav-link">
+                        <i class="fas fa-video nav-icon"></i>
+                        <p>Видео<span class="badge badge-info right">{{$videos->total()}}</span></p>
+                    </a>
+                </li>
             </ul>
         </li>
         @can('view', auth()->user())
